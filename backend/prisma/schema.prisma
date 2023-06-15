@@ -1,0 +1,87 @@
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:root@localhost:3306/immo"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model afbeeldingen {
+  id        Int
+  url       String   @db.VarChar(150)
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+  Panden_id Int
+  panden    panden   @relation(fields: [Panden_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Afbeeldingen_Panden1_idx")
+
+  @@id([id, Panden_id])
+  @@index([Panden_id], map: "fk_Afbeeldingen_Panden1_idx_idx")
+}
+
+model gebruikers {
+  id         Int         @id
+  voorNaam   String      @db.VarChar(45)
+  achterNaam String      @db.VarChar(45)
+  email      String      @unique(map: "email_UNIQUE") @db.VarChar(150)
+  wachtwoord String      @db.VarChar(150)
+  createdAt  DateTime    @db.DateTime(0)
+  updatedAt  DateTime    @db.DateTime(0)
+  pandregio  pandregio[]
+}
+
+model panden {
+  id                 Int            @id
+  straat             String         @db.VarChar(45)
+  huisnummer         String         @db.VarChar(45)
+  bus                String?        @db.VarChar(45)
+  postcode           Int
+  gemeente           String         @db.VarChar(45)
+  prijs              Int
+  aantalKamers       Int
+  oppervlakte        Int
+  beschrijving       String         @db.Text
+  type               Int?
+  createdAt          DateTime       @db.DateTime(0)
+  updatedAt          DateTime       @db.DateTime(0)
+  isVerkochtVerhuurd Int            @db.TinyInt
+  TypePand_id        Int
+  afbeeldingen       afbeeldingen[]
+  typepand           typepand       @relation(fields: [TypePand_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Panden_TypePand1_idx")
+  pandregio          pandregio[]
+
+  @@index([TypePand_id], map: "fk_Panden_TypePand1_idx_idx")
+}
+
+model pandregio {
+  Panden_id     Int
+  Regio_id      Int
+  pandregiocol  String?    @db.VarChar(45)
+  Gebruikers_id Int
+  createdAt     DateTime   @db.DateTime(0)
+  gebruikers    gebruikers @relation(fields: [Gebruikers_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_PandRegio_Gebruikers1_idx")
+  panden        panden     @relation(fields: [Panden_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Panden_has_Regio_Panden_idx")
+  regio         regio      @relation(fields: [Regio_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Panden_has_Regio_Regio_idx")
+
+  @@id([Regio_id, Panden_id])
+  @@index([Gebruikers_id], map: "fk_PandRegio_Gebruikers1_idx_idx")
+  @@index([Panden_id], map: "fk_Panden_has_Regio_Panden_idx_idx")
+  @@index([Regio_id], map: "fk_Panden_has_Regio_Regio_idx_idx")
+}
+
+model regio {
+  id        Int         @id
+  naam      String      @unique(map: "naam_UNIQUE") @db.VarChar(45)
+  createdAt DateTime    @db.DateTime(0)
+  updatedAt DateTime    @db.DateTime(0)
+  pandregio pandregio[]
+}
+
+model typepand {
+  id        Int      @id
+  naam      String   @unique(map: "naam_UNIQUE") @db.VarChar(45)
+  createdAt DateTime @db.DateTime(0)
+  updatedAt DateTime @db.DateTime(0)
+  panden    panden[]
+}

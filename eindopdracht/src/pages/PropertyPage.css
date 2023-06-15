@@ -1,0 +1,13 @@
+/* PropertyPage.css */
+.property-grid {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-top: 1%;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 2%;  /* voeg 2% padding toe aan de linker- en rechterkant van de container */
+}

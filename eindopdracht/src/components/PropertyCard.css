@@ -1,0 +1,27 @@
+.property-card {
+    width: 30%; /* width of card - you may want to adjust this */
+    margin: 1%; /* margin around card - you may want to adjust this */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* optional: add a shadow for a "card" effect */
+    max-height: 40vh; /* max height of 40% of the viewport height */
+    overflow: hidden; /* in case the content is larger than the card */
+  }
+  
+  .property-card img {
+    width: 100%;  /* make sure the image covers the full width of the card */
+    max-height: 65%; /* make sure the image does not exceed the height of the card */
+    object-fit: cover; /* resize the image to maintain its aspect ratio while filling the box */
+  }
+  
+  .property-card .property-details {
+    padding: 1%; /* padding around text content - you may want to adjust this */
+  }
+  
+  .property-card .property-details .property-title {
+    color: #333; /* color of title - you may want to adjust this */
+    text-decoration: none; /* remove link underline */
+  }
+  
+  .property-card .property-details h2, .property-card .property-details p {
+    margin: 0; /* remove default margin from headings and paragraphs */
+  }
+  

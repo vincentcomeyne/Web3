@@ -1,0 +1,7 @@
+/* FilterForm.css */
+.filter-form {
+    display: flex;
+    justify-content: right; 
+    align-items: center;
+    gap: 10px;
+  }
